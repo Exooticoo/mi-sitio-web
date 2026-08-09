@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de gestión de precios de tragos y cócteles - Carta digital profesional">
+    <title>🍸 Carta de Tragos & Cócteles | Sistema de Precios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Ambient background particles -->
+    <div class="ambient-bg">
+        <div class="particle" style="--x: 10%; --y: 20%; --delay: 0s; --size: 4px;"></div>
+        <div class="particle" style="--x: 80%; --y: 15%; --delay: 1s; --size: 6px;"></div>
+        <div class="particle" style="--x: 50%; --y: 70%; --delay: 2s; --size: 3px;"></div>
+        <div class="particle" style="--x: 20%; --y: 80%; --delay: 3s; --size: 5px;"></div>
+        <div class="particle" style="--x: 90%; --y: 50%; --delay: 4s; --size: 4px;"></div>
+        <div class="particle" style="--x: 35%; --y: 40%; --delay: 1.5s; --size: 7px;"></div>
+        <div class="particle" style="--x: 65%; --y: 90%; --delay: 2.5s; --size: 3px;"></div>
+        <div class="particle" style="--x: 75%; --y: 30%; --delay: 3.5s; --size: 5px;"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-icon">🍸</div>
+                <div class="logo-text">
+                    <h1>MIXOLOGÍA PREMIUM</h1>
+                    <p class="tagline">Sistema de Gestión de Precios & Carta Digital</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="date-display" id="currentDate"></div>
+                <button class="btn-header" onclick="exportToCSV()" title="Exportar a CSV/Excel">
+                    <span class="btn-icon">📊</span> Exportar Excel
+                </button>
+                <button class="btn-header btn-print" onclick="window.print()" title="Imprimir carta">
+                    <span class="btn-icon">🖨️</span> Imprimir
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Stats -->
+    <section class="dashboard">
+        <div class="stat-card" style="--accent: #f59e0b;">
+            <div class="stat-icon">🍹</div>
+            <div class="stat-info">
+                <span class="stat-value" id="totalProducts">0</span>
+                <span class="stat-label">Total Productos</span>
+            </div>
+        </div>
+        <div class="stat-card" style="--accent: #10b981;">
+            <div class="stat-icon">💰</div>
+            <div class="stat-info">
+                <span class="stat-value" id="avgPrice">$0</span>
+                <span class="stat-label">Precio Promedio</span>
+            </div>
+        </div>
+        <div class="stat-card" style="--accent: #8b5cf6;">
+            <div class="stat-icon">📈</div>
+            <div class="stat-info">
+                <span class="stat-value" id="maxPrice">$0</span>
+                <span class="stat-label">Precio Máximo</span>
+            </div>
+        </div>
+        <div class="stat-card" style="--accent: #ef4444;">
+            <div class="stat-icon">🏷️</div>
+            <div class="stat-info">
+                <span class="stat-value" id="totalCategories">0</span>
+                <span class="stat-label">Categorías</span>
+            </div>
+        </div>
+        <div class="stat-card" style="--accent: #06b6d4;">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+                <span class="stat-value" id="marginAvg">0%</span>
+                <span class="stat-label">Margen Promedio</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Controls Bar -->
+    <section class="controls-bar">
+        <div class="controls-left">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Buscar trago, ingrediente o categoría..." oninput="filterTable()">
+            </div>
+            <div class="filter-group">
+                <label>Categoría:</label>
+                <select id="categoryFilter" onchange="filterTable()">
+                    <option value="">Todas</option>
+                    <option value="Cóctel Clásico">🍸 Cóctel Clásico</option>
+                    <option value="Cóctel Premium">✨ Cóctel Premium</option>
+                    <option value="Cóctel Tropical">🌴 Cóctel Tropical</option>
+                    <option value="Shot">🥃 Shot</option>
+                    <option value="Destilado Puro">🥃 Destilado Puro</option>
+                    <option value="Cerveza">🍺 Cerveza</option>
+                    <option value="Vino">🍷 Vino</option>
+                    <option value="Sin Alcohol">🧃 Sin Alcohol</option>
+                    <option value="Especial de la Casa">🌟 Especial de la Casa</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Rango de Precio:</label>
+                <select id="priceFilter" onchange="filterTable()">
+                    <option value="">Todos</option>
+                    <option value="0-5000">$0 - $5.000</option>
+                    <option value="5000-10000">$5.000 - $10.000</option>
+                    <option value="10000-15000">$10.000 - $15.000</option>
+                    <option value="15000+">$15.000+</option>
+                </select>
+            </div>
+        </div>
+        <div class="controls-right">
+            <button class="btn-action btn-add" onclick="openModal()">
+                <span>➕</span> Agregar Trago
+            </button>
+            <button class="btn-action btn-reset" onclick="resetFilters()">
+                <span>🔄</span> Limpiar Filtros
+            </button>
+        </div>
+    </section>
+
+    <!-- Main Table -->
+    <section class="table-section">
+        <div class="table-wrapper">
+            <table id="drinksTable">
+                <thead>
+                    <tr>
+                        <th class="th-num" onclick="sortTable(0)">#</th>
+                        <th onclick="sortTable(1)">Nombre del Trago <span class="sort-icon">⇅</span></th>
+                        <th onclick="sortTable(2)">Categoría <span class="sort-icon">⇅</span></th>
+                        <th onclick="sortTable(3)">Base Alcohólica <span class="sort-icon">⇅</span></th>
+                        <th onclick="sortTable(4)">Ingredientes Principales</th>
+                        <th onclick="sortTable(5)">Vol. Alcohol <span class="sort-icon">⇅</span></th>
+                        <th onclick="sortTable(6)">Tamaño (ml) <span class="sort-icon">⇅</span></th>
+                        <th onclick="sortTable(7)">Costo Unitario <span class="sort-icon">⇅</span></th>
+                        <th onclick="sortTable(8)">Precio Venta <span class="sort-icon">⇅</span></th>
+                        <th onclick="sortTable(9)">Margen % <span class="sort-icon">⇅</span></th>
+                        <th onclick="sortTable(10)">Ganancia <span class="sort-icon">⇅</span></th>
+                        <th>Estado</th>
+                        <th class="th-actions">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Dynamic content -->
+                </tbody>
+            </table>
+        </div>
+        <div class="table-footer">
+            <div class="footer-info">
+                Mostrando <span id="visibleCount">0</span> de <span id="totalCount">0</span> productos
+            </div>
+            <div class="footer-totals">
+                <span>Ganancia Total Estimada: <strong id="totalProfit">$0</strong></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Drink Detail Panel -->
+    <section class="detail-panel" id="detailPanel">
+        <div class="detail-header">
+            <h3 id="detailTitle">Detalle del Trago</h3>
+            <button class="btn-close-detail" onclick="closeDetail()">✕</button>
+        </div>
+        <div class="detail-content" id="detailContent"></div>
+    </section>
+
+    <!-- Add/Edit Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 id="modalTitle">➕ Agregar Nuevo Trago</h2>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="drinkForm" onsubmit="saveDrink(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="drinkName">Nombre del Trago *</label>
+                            <input type="text" id="drinkName" required placeholder="Ej: Mojito Clásico">
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkCategory">Categoría *</label>
+                            <select id="drinkCategory" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="Cóctel Clásico">🍸 Cóctel Clásico</option>
+                                <option value="Cóctel Premium">✨ Cóctel Premium</option>
+                                <option value="Cóctel Tropical">🌴 Cóctel Tropical</option>
+                                <option value="Shot">🥃 Shot</option>
+                                <option value="Destilado Puro">🥃 Destilado Puro</option>
+                                <option value="Cerveza">🍺 Cerveza</option>
+                                <option value="Vino">🍷 Vino</option>
+                                <option value="Sin Alcohol">🧃 Sin Alcohol</option>
+                                <option value="Especial de la Casa">🌟 Especial de la Casa</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkBase">Base Alcohólica *</label>
+                            <input type="text" id="drinkBase" required placeholder="Ej: Ron, Vodka, Gin...">
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkIngredients">Ingredientes Principales</label>
+                            <input type="text" id="drinkIngredients" placeholder="Separados por coma">
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkAlcohol">Volumen Alcohol (%)</label>
+                            <input type="number" id="drinkAlcohol" step="0.1" min="0" max="100" placeholder="Ej: 12.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkSize">Tamaño (ml) *</label>
+                            <input type="number" id="drinkSize" required min="1" placeholder="Ej: 350">
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkCost">Costo Unitario ($) *</label>
+                            <input type="number" id="drinkCost" required step="1" min="0" placeholder="Ej: 2500">
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkPrice">Precio de Venta ($) *</label>
+                            <input type="number" id="drinkPrice" required step="1" min="0" placeholder="Ej: 7500">
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkGarnish">Decoración / Garnish</label>
+                            <input type="text" id="drinkGarnish" placeholder="Ej: Rodaja de limón, menta">
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkGlass">Tipo de Vaso</label>
+                            <input type="text" id="drinkGlass" placeholder="Ej: Copa Martini, Highball">
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkPrep">Método de Preparación</label>
+                            <select id="drinkPrep">
+                                <option value="Mezclado">Mezclado</option>
+                                <option value="Agitado">Agitado (Shaken)</option>
+                                <option value="Revuelto">Revuelto (Stirred)</option>
+                                <option value="Licuado">Licuado (Blended)</option>
+                                <option value="Directo">Directo (Built)</option>
+                                <option value="Muddled">Machacado (Muddled)</option>
+                                <option value="Flameado">Flameado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkStatus">Estado</label>
+                            <select id="drinkStatus">
+                                <option value="Disponible">✅ Disponible</option>
+                                <option value="Agotado">❌ Agotado</option>
+                                <option value="Nuevo">🆕 Nuevo</option>
+                                <option value="Promoción">🔥 En Promoción</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="drinkNotes">Notas / Descripción</label>
+                            <textarea id="drinkNotes" rows="3" placeholder="Descripción del trago, historia, recomendaciones de maridaje..."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-preview">
+                        <div class="preview-calc">
+                            <span>Margen calculado: <strong id="previewMargin">0%</strong></span>
+                            <span>Ganancia: <strong id="previewProfit">$0</strong></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                        <button type="submit" class="btn-save">💾 Guardar Trago</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
