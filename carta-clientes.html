@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Carta de Tragos y Cócteles - Mixología Premium">
+    <title>🍸 Carta de Tragos | Mixología Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           CARTA PARA CLIENTES — MIXOLOGÍA PREMIUM
+           Design System
+           ============================================ */
+        :root {
+            --bg-deep: #08070c;
+            --bg-dark: #0d0c14;
+            --bg-card: #13121e;
+            --bg-card-hover: #1a1929;
+            --bg-glass: rgba(19, 18, 30, 0.6);
+
+            --gold-100: #fffbeb;
+            --gold-200: #fef3c7;
+            --gold-300: #fde68a;
+            --gold-400: #fcd34d;
+            --gold-500: #f5c542;
+            --gold-600: #d4a017;
+            --gold-700: #a87c12;
+            --gold-gradient: linear-gradient(135deg, #f5c542 0%, #d4a017 50%, #f5c542 100%);
+            --gold-text: linear-gradient(135deg, #fde68a, #f5c542, #d4a017, #f5c542);
+
+            --text-white: #f5f3f0;
+            --text-cream: #e8e2d8;
+            --text-soft: #b0a89e;
+            --text-muted: #6e665c;
+            --text-faint: #3d3830;
+
+            --accent-rose: #c4596e;
+            --accent-violet: #8b6fc0;
+            --accent-teal: #4db6ac;
+            --accent-amber: #e6a23c;
+            --accent-coral: #e07860;
+
+            --border-gold: rgba(245, 197, 66, 0.12);
+            --border-gold-active: rgba(245, 197, 66, 0.3);
+
+            --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+            --font-elegant: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'Inter', system-ui, sans-serif;
+        }
+
+        *, *::before, *::after {
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-deep);
+            color: var(--text-cream);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* === Ambient Background === */
+        .bg-ambience {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-ambience::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background:
+                radial-gradient(ellipse 600px 400px at 20% 10%, rgba(245, 197, 66, 0.06) 0%, transparent 70%),
+                radial-gradient(ellipse 500px 500px at 80% 30%, rgba(139, 111, 192, 0.05) 0%, transparent 70%),
+                radial-gradient(ellipse 400px 600px at 50% 90%, rgba(77, 182, 172, 0.04) 0%, transparent 70%),
+                radial-gradient(ellipse 700px 300px at 70% 60%, rgba(196, 89, 110, 0.03) 0%, transparent 70%);
+            animation: ambientDrift 25s ease-in-out infinite alternate;
+        }
+
+        @keyframes ambientDrift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-3%, -2%) scale(1.05); }
+        }
+
+        /* Floating golden particles */
+        .sparkle {
+            position: fixed;
+            width: var(--s, 3px);
+            height: var(--s, 3px);
+            background: radial-gradient(circle, rgba(245, 197, 66, 0.8), transparent);
+            border-radius: 50%;
+            left: var(--x);
+            top: var(--y);
+            pointer-events: none;
+            z-index: 0;
+            animation: sparkleFloat var(--dur, 6s) ease-in-out infinite;
+            animation-delay: var(--del, 0s);
+        }
+
+        @keyframes sparkleFloat {
+            0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
+            20% { opacity: 1; }
+            50% { opacity: 0.7; transform: translateY(-40px) scale(1); }
+            80% { opacity: 0.3; }
+        }
+
+        /* === Hero Section === */
+        .hero {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-600), transparent);
+        }
+
+        .hero-ornament {
+            font-size: 0.85rem;
+            letter-spacing: 8px;
+            color: var(--gold-600);
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .hero-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1.2rem;
+            filter: drop-shadow(0 0 30px rgba(245, 197, 66, 0.3));
+            animation: heroIconFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes heroIconFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(-3deg); }
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            letter-spacing: 6px;
+            background: var(--gold-text);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmerText 4s linear infinite;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes shimmerText {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-elegant);
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            font-weight: 300;
+            font-style: italic;
+            color: var(--text-soft);
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .hero-line span {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .hero-line::before, .hero-line::after {
+            content: '';
+            width: 60px;
+            height: 1px;
+            background: var(--gold-600);
+            opacity: 0.3;
+        }
+
+        /* === Navigation (Category Tabs) === */
+        .category-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 7, 12, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-gold);
+            padding: 0.8rem 1rem;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 0.55rem 1.2rem;
+            border: 1px solid transparent;
+            border-radius: 30px;
+            background: transparent;
+            color: var(--text-soft);
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            color: var(--gold-400);
+            border-color: var(--border-gold);
+            background: rgba(245, 197, 66, 0.05);
+        }
+
+        .nav-tab.active {
+            background: rgba(245, 197, 66, 0.1);
+            border-color: var(--border-gold-active);
+            color: var(--gold-400);
+            font-weight: 600;
+        }
+
+        /* === Main Content === */
+        .menu-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* === Category Section === */
+        .category-section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: sectionReveal 0.7s ease forwards;
+        }
+
+        @keyframes sectionReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .category-icon {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 0.8rem;
+            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.3));
+        }
+
+        .category-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 600;
+            color: var(--text-white);
+            letter-spacing: 3px;
+            margin-bottom: 0.4rem;
+        }
+
+        .category-subtitle {
+            font-family: var(--font-elegant);
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
+
+        .category-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .category-divider::before, .category-divider::after {
+            content: '';
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-600));
+        }
+
+        .category-divider::after {
+            background: linear-gradient(90deg, var(--gold-600), transparent);
+        }
+
+        .category-divider .diamond {
+            width: 8px;
+            height: 8px;
+            background: var(--gold-600);
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+
+        /* === Drink Cards === */
+        .drinks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .drink-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .drink-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gold-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .drink-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(245, 197, 66, 0.03) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .drink-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-gold-active);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(245, 197, 66, 0.05);
+        }
+
+        .drink-card:hover::before,
+        .drink-card:hover::after {
+            opacity: 1;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .drink-name {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--text-white);
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .drink-price {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gold-text);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+            animation: shimmerText 4s linear infinite;
+            flex-shrink: 0;
+        }
+
+        .drink-dots {
+            flex: 1;
+            min-width: 30px;
+            border-bottom: 1px dotted var(--text-faint);
+            margin: 0 0.5rem;
+            align-self: center;
+            margin-bottom: 4px;
+        }
+
+        .drink-base {
+            display: inline-block;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--gold-600);
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            padding: 0.2rem 0.6rem;
+            border: 1px solid var(--border-gold);
+            border-radius: 20px;
+            background: rgba(245, 197, 66, 0.05);
+        }
+
+        .drink-description {
+            font-family: var(--font-elegant);
+            font-size: 0.95rem;
+            color: var(--text-soft);
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 0.8rem;
+        }
+
+        .drink-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .meta-item .meta-icon {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* Status badges */
+        .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 2;
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .badge-new {
+            background: linear-gradient(135deg, rgba(139, 111, 192, 0.25), rgba(139, 111, 192, 0.15));
+            color: #b49ae0;
+            border: 1px solid rgba(139, 111, 192, 0.3);
+        }
+
+        .badge-promo {
+            background: linear-gradient(135deg, rgba(224, 120, 96, 0.25), rgba(230, 162, 60, 0.15));
+            color: #f0b060;
+            border: 1px solid rgba(230, 162, 60, 0.3);
+            animation: promoPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes promoPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(230, 162, 60, 0.2); }
+            50% { box-shadow: 0 0 15px 2px rgba(230, 162, 60, 0.15); }
+        }
+
+        /* === Specials Section === */
+        .specials-card {
+            background: linear-gradient(135deg, rgba(19, 18, 30, 0.95), rgba(26, 25, 41, 0.95));
+            border: 1px solid rgba(245, 197, 66, 0.2);
+            position: relative;
+        }
+
+        .specials-card::before {
+            opacity: 0.5 !important;
+        }
+
+        .specials-glow {
+            position: absolute;
+            inset: -1px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(245, 197, 66, 0.1), transparent 40%, transparent 60%, rgba(139, 111, 192, 0.1));
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* === Non-Alcoholic Section === */
+        .virgin-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.15rem 0.5rem;
+            background: rgba(77, 182, 172, 0.1);
+            border: 1px solid rgba(77, 182, 172, 0.2);
+            border-radius: 20px;
+            font-size: 0.65rem;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* === Footer === */
+        .menu-footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border-gold);
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-ornament {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 15px rgba(245, 197, 66, 0.3));
+        }
+
+        .footer-text {
+            font-family: var(--font-elegant);
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-style: italic;
+            line-height: 1.8;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .footer-text strong {
+            color: var(--gold-500);
+            font-style: normal;
+        }
+
+        .footer-legal {
+            margin-top: 1.5rem;
+            font-size: 0.65rem;
+            color: var(--text-faint);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* === Scroll to top === */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(13, 12, 20, 0.9);
+            border: 1px solid var(--border-gold-active);
+            color: var(--gold-500);
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            background: rgba(245, 197, 66, 0.15);
+            box-shadow: 0 0 20px rgba(245, 197, 66, 0.2);
+        }
+
+        /* === Animations for intersection observer === */
+        .drink-card {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+
+        .drink-card.revealed {
+            animation: cardReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes cardReveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === Print Styles === */
+        @media print {
+            body { background: #fff; color: #222; }
+            .bg-ambience, .sparkle, .category-nav, .scroll-top { display: none !important; }
+            .hero { padding: 2rem; }
+            .hero h1 { -webkit-text-fill-color: #333; color: #333; font-size: 2rem; }
+            .hero-subtitle { color: #666; }
+            .drink-card { border: 1px solid #ddd; background: #fafafa; break-inside: avoid; }
+            .drink-card, .drink-card.revealed { opacity: 1; transform: none; }
+            .drink-name { color: #222; }
+            .drink-price { -webkit-text-fill-color: #8b6914; color: #8b6914; }
+            .drink-description { color: #555; }
+            .category-title { color: #222; }
+            .menu-container { padding: 0 1rem; }
+            .drinks-grid { gap: 0.8rem; }
+        }
+
+        /* === Responsive === */
+        @media (max-width: 700px) {
+            .hero { padding: 3rem 1.5rem 2rem; }
+            .drinks-grid { grid-template-columns: 1fr; }
+            .nav-tab { padding: 0.4rem 0.8rem; font-size: 0.65rem; }
+            .menu-container { padding: 1.5rem 1rem 3rem; }
+            .category-section { margin-bottom: 3rem; }
+        }
+
+        /* === Scrollbar === */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: rgba(245, 197, 66, 0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(245, 197, 66, 0.4); }
+        ::selection { background: rgba(245, 197, 66, 0.2); color: var(--gold-300); }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Background -->
+    <div class="bg-ambience"></div>
+
+    <!-- Sparkle particles -->
+    <div class="sparkle" style="--x:8%;--y:15%;--s:3px;--dur:7s;--del:0s;"></div>
+    <div class="sparkle" style="--x:92%;--y:10%;--s:4px;--dur:8s;--del:1s;"></div>
+    <div class="sparkle" style="--x:25%;--y:45%;--s:2px;--dur:6s;--del:2s;"></div>
+    <div class="sparkle" style="--x:78%;--y:55%;--s:3px;--dur:9s;--del:0.5s;"></div>
+    <div class="sparkle" style="--x:45%;--y:80%;--s:4px;--dur:7s;--del:3s;"></div>
+    <div class="sparkle" style="--x:60%;--y:25%;--s:2px;--dur:8s;--del:1.5s;"></div>
+    <div class="sparkle" style="--x:15%;--y:70%;--s:3px;--dur:6s;--del:4s;"></div>
+    <div class="sparkle" style="--x:88%;--y:85%;--s:2px;--dur:7s;--del:2.5s;"></div>
+    <div class="sparkle" style="--x:35%;--y:12%;--s:3px;--dur:9s;--del:3.5s;"></div>
+    <div class="sparkle" style="--x:52%;--y:60%;--s:4px;--dur:6s;--del:0.8s;"></div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-ornament">✦ ✦ ✦</div>
+        <span class="hero-icon">🍸</span>
+        <h1>MIXOLOGÍA PREMIUM</h1>
+        <p class="hero-subtitle">El arte de la coctelería en cada copa</p>
+        <div class="hero-line">
+            <span>Carta de Tragos & Cócteles</span>
+        </div>
+    </header>
+
+    <!-- Category Navigation -->
+    <nav class="category-nav" id="categoryNav">
+        <div class="nav-inner">
+            <button class="nav-tab active" onclick="scrollToSection('all')">✦ Todos</button>
+            <button class="nav-tab" onclick="scrollToSection('clasicos')">🍸 Clásicos</button>
+            <button class="nav-tab" onclick="scrollToSection('premium')">✨ Premium</button>
+            <button class="nav-tab" onclick="scrollToSection('tropicales')">🌴 Tropicales</button>
+            <button class="nav-tab" onclick="scrollToSection('especiales')">🌟 Especiales</button>
+            <button class="nav-tab" onclick="scrollToSection('shots')">🥃 Shots & Destilados</button>
+            <button class="nav-tab" onclick="scrollToSection('cervezas')">🍺 Cervezas</button>
+            <button class="nav-tab" onclick="scrollToSection('vinos')">🍷 Vinos</button>
+            <button class="nav-tab" onclick="scrollToSection('sin-alcohol')">🧃 Sin Alcohol</button>
+        </div>
+    </nav>
+
+    <!-- Menu Content -->
+    <main class="menu-container" id="menuContainer">
+        <!-- Content is dynamically generated -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="menu-footer">
+        <div class="footer-ornament">✦</div>
+        <p class="footer-text">
+            Todos nuestros cócteles son preparados con <strong>ingredientes frescos</strong> y espirituosos de primera calidad.<br>
+            Consulte a nuestro bartender por <strong>creaciones personalizadas</strong> y recomendaciones de maridaje.
+        </p>
+        <p class="footer-legal">
+            El consumo de alcohol es para mayores de 18 años · Beba con responsabilidad · Precios incluyen impuestos
+        </p>
+    </footer>
+
+    <!-- Scroll to top -->
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <script>
+        // =============== DRINK DATA ===============
+        const menuData = {
+            clasicos: {
+                icon: "🍸",
+                title: "Cócteles Clásicos",
+                subtitle: "Los inmortales de la coctelería mundial",
+                drinks: [
+                    { name: "Mojito Clásico", base: "Ron Blanco", desc: "Ron cubano premium, hierba buena fresca del huerto, limón natural, azúcar y soda refrescante.", price: 6500, size: 350, alcohol: 12, glass: "Highball", garnish: "Ramita de menta, rodaja de limón" },
+                    { name: "Margarita Frozen", base: "Tequila Reposado", desc: "Tequila 100% agave con triple sec, jugo de lima fresco y borde de sal marina.", price: 7500, size: 300, alcohol: 13.5, glass: "Copa Margarita", garnish: "Borde de sal, rodaja de lima" },
+                    { name: "Whiskey Sour", base: "Bourbon", desc: "Bourbon premium con limón fresco, jarabe de goma y espuma sedosa de clara de huevo.", price: 8500, size: 250, alcohol: 15, glass: "Coupe", garnish: "Espuma de clara, gotitas de angostura" },
+                    { name: "Caipirinha", base: "Cachaça", desc: "El cóctel brasileño por excelencia. Cachaça importada, lima machacada y azúcar.", price: 6500, size: 300, alcohol: 14, glass: "Rocks", garnish: "Rodajas de lima" },
+                    { name: "Aperol Spritz", base: "Aperol + Prosecco", desc: "El aperitivo italiano perfecto. Prosecco importado del Veneto, Aperol y un toque de soda.", price: 9000, size: 350, alcohol: 8, glass: "Copa de vino", garnish: "Rodaja de naranja grande" },
+                    { name: "Cosmopolitan", base: "Vodka Citrus", desc: "Icónico cóctel con vodka premium, Cointreau, jugo de arándano natural y lima.", price: 8000, size: 220, alcohol: 16, glass: "Copa Martini", garnish: "Cáscara de naranja flameada" },
+                    { name: "Dark & Stormy", base: "Ron Oscuro", desc: "Ron oscuro de las Bermudas con ginger beer artesanal y jugo de lima fresco.", price: 7000, size: 350, alcohol: 12, glass: "Highball", garnish: "Rodaja de lima, jengibre cristalizado" },
+                    { name: "Moscow Mule", base: "Vodka", desc: "Servido en la icónica taza de cobre helada con ginger beer premium artesanal y lima.", price: 7500, size: 350, alcohol: 11, glass: "Taza de cobre", garnish: "Rodaja de lima, menta" },
+                    { name: "Pisco Sour", base: "Pisco Quebranta", desc: "Pisco peruano de alta calidad con limón, jarabe de goma y espuma perfecta de clara de huevo.", price: 8000, size: 220, alcohol: 15, glass: "Coupe", garnish: "Gotitas de Angostura" },
+                    { name: "Paloma", base: "Tequila Blanco", desc: "El cóctel más popular de México. Toronja rosada fresca, tequila 100% agave y soda.", price: 6500, size: 350, alcohol: 10, glass: "Highball", garnish: "Borde de sal, gajo de toronja" },
+                    { name: "Long Island Iced Tea", base: "Multi-espirituoso", desc: "Cinco espirituosos premium en un solo vaso. Potente pero sorprendentemente suave.", price: 9500, size: 400, alcohol: 22, glass: "Highball alto", garnish: "Rodaja de limón" },
+                    { name: "Amaretto Sour", base: "Amaretto + Bourbon", desc: "Amaretto Disaronno con un toque de bourbon, limón fresco y espuma perfecta de clara.", price: 7500, size: 220, alcohol: 13, glass: "Rocks", garnish: "Cereza amarasca, cáscara de limón" },
+                ]
+            },
+            premium: {
+                icon: "✨",
+                title: "Cócteles Premium",
+                subtitle: "Experiencias de autor con espirituosos selectos",
+                drinks: [
+                    { name: "Old Fashioned", base: "Bourbon Maker's Mark", desc: "El rey de los cócteles desde 1880. Bourbon premium, angostura bitters artesanales y cáscara de naranja flameada.", price: 12000, size: 200, alcohol: 32, glass: "Rocks", garnish: "Naranja flameada, cereza maraschino" },
+                    { name: "Negroni", base: "Gin Tanqueray", desc: "Equilibrio perfecto entre amargo, dulce y herbal. Gin, Campari original y Cinzano Rosso.", price: 10500, size: 180, alcohol: 24, glass: "Rocks", garnish: "Rodaja de naranja", status: "new" },
+                    { name: "Espresso Martini", base: "Vodka Premium", desc: "Espresso de especialidad colombiano, vodka, licor de café. Energía y elegancia en copa.", price: 11000, size: 220, alcohol: 18, glass: "Copa Martini", garnish: "3 granos de café", status: "promo" },
+                    { name: "Gin & Tonic Premium", base: "Gin Hendrick's", desc: "Copa balón con abundante hielo, Gin Hendrick's o Monkey 47, tónica Fever-Tree y botánicos.", price: 12500, size: 400, alcohol: 8.5, glass: "Copa Balón", garnish: "Pepino, romero, pimienta rosa" },
+                    { name: "Boulevardier", base: "Bourbon", desc: "La versión americana del Negroni. Más robusto y cálido. Perfecto para noches frías.", price: 11000, size: 180, alcohol: 25, glass: "Coupe", garnish: "Naranja, cereza Luxardo" },
+                ]
+            },
+            tropicales: {
+                icon: "🌴",
+                title: "Cócteles Tropicales",
+                subtitle: "Sabores del paraíso en cada sorbo",
+                drinks: [
+                    { name: "Piña Colada", base: "Ron Blanco", desc: "Crema de coco natural, jugo de piña fresca y ron blanco. Servido frozen para los días calurosos.", price: 7000, size: 400, alcohol: 10, glass: "Hurricane", garnish: "Rodaja de piña, cereza, sombrillita" },
+                    { name: "Tequila Sunrise", base: "Tequila", desc: "Visual espectacular con degradé de colores. Jugo de naranja natural recién exprimido y granadina.", price: 6000, size: 350, alcohol: 11, glass: "Highball", garnish: "Rodaja de naranja, cereza" },
+                    { name: "Daiquirí de Fresa", base: "Ron Blanco", desc: "Frutillas frescas de temporada con ron blanco, lima y jarabe. Suave y refrescante.", price: 7000, size: 300, alcohol: 11.5, glass: "Copa Martini", garnish: "Frutilla en el borde, menta" },
+                    { name: "Mai Tai", base: "Ron Dorado + Oscuro", desc: "Cóctel tiki legendario. Mezcla de dos rones, Curaçao y jarabe de orgeat artesanal.", price: 9500, size: 350, alcohol: 17, glass: "Tiki mug", garnish: "Menta, lima, piña deshidratada", status: "new" },
+                ]
+            },
+            especiales: {
+                icon: "🌟",
+                title: "Especiales de la Casa",
+                subtitle: "Creaciones exclusivas de nuestros bartenders",
+                isSpecial: true,
+                drinks: [
+                    { name: "Sunset Boulevard", base: "Vodka + Maracuyá + Champagne", desc: "Creación exclusiva del bartender principal. Presentación espectacular con degradé de colores, licor de maracuyá y un toque final de champagne.", price: 13000, size: 300, alcohol: 14, glass: "Copa Flauta", garnish: "Espiral de naranja, flor comestible, escarcha dorada" },
+                    { name: "Fuego Latino", base: "Tequila + Mezcal", desc: "Picante y ahumado. Fusión de tequila y mezcal artesanal con jalapeño infusionado y mango fresco. Una experiencia sensorial completa.", price: 14000, size: 280, alcohol: 16, glass: "Rocks doble", garnish: "Chile deshidratado, sal de gusano, mango", status: "new" },
+                    { name: "Jardín Nocturno", base: "Gin + St-Germain", desc: "Elegancia botánica en copa. Gin Hendrick's, licor de flor de saúco St-Germain, pepino, albahaca y tónica premium.", price: 15000, size: 350, alcohol: 10, glass: "Copa Balón", garnish: "Flor de saúco, albahaca, lámina de pepino", status: "promo" },
+                    { name: "Sangría Premium", base: "Malbec Reserva + Brandy", desc: "Preparada con Malbec reserva, brandy, Cointreau y frutas frescas de estación. Maceración mínima de 4 horas.", price: 8500, size: 450, alcohol: 12, glass: "Copa grande / Jarra individual", garnish: "Frutas de estación, canela en rama" },
+                ]
+            },
+            shots: {
+                icon: "🥃",
+                title: "Shots & Destilados",
+                subtitle: "Espirituosos puros para los conocedores",
+                drinks: [
+                    { name: "Shot Tequila Premium", base: "Tequila 100% Agave", desc: "Tequila reposado 100% agave servido con limón fresco y sal de mar.", price: 4500, size: 45, alcohol: 38, glass: "Caballito", garnish: "Limón, sal" },
+                    { name: "Shot Jägermeister", base: "Jägermeister", desc: "Servido directo del freezer a -18°C para máxima suavidad. Licor de hierbas alemán.", price: 3500, size: 45, alcohol: 35, glass: "Shot glass", garnish: "—" },
+                    { name: "Whisky Johnnie Walker Black", base: "Whisky Escocés 12 años", desc: "Blend premium de 12 años. Servido puro, con hielo o con splash de agua a elección.", price: 9000, size: 60, alcohol: 40, glass: "Rocks / Glencairn", garnish: "Hielo opcional" },
+                    { name: "Vodka Grey Goose", base: "Vodka Francés Ultra Premium", desc: "Destilado de trigo de invierno de Picardy, Francia. Suavidad excepcional.", price: 8000, size: 60, alcohol: 40, glass: "Rocks", garnish: "Hielo" },
+                ]
+            },
+            cervezas: {
+                icon: "🍺",
+                title: "Cervezas Artesanales",
+                subtitle: "Selección de cervecerías locales",
+                drinks: [
+                    { name: "IPA Artesanal", base: "Cerveza Artesanal", desc: "Notas cítricas y tropicales con lúpulo Citra y Mosaic. Amargor balanceado, 55 IBU.", price: 5000, size: 473, alcohol: 6.5, glass: "Pinta", garnish: "—" },
+                    { name: "Stout Cremosa", base: "Cerveza Artesanal", desc: "Notas de chocolate y café con cuerpo robusto. Colaboración especial con cervecería local.", price: 5500, size: 473, alcohol: 7.2, glass: "Pinta / Snifter", garnish: "—", status: "new" },
+                ]
+            },
+            vinos: {
+                icon: "🍷",
+                title: "Vinos por Copa",
+                subtitle: "Selección cuidada de viñedos sudamericanos",
+                drinks: [
+                    { name: "Malbec Reserva", base: "Vino Tinto — Mendoza", desc: "Uva Malbec reserva de Mendoza, Argentina. 12 meses en barrica de roble francés.", price: 7500, size: 180, alcohol: 14.5, glass: "Copa Burdeos", garnish: "—" },
+                    { name: "Sauvignon Blanc", base: "Vino Blanco — Valle Central", desc: "Fresco, cítrico y mineral. Del Valle Central de Chile. Temperatura ideal: 8-10°C.", price: 6500, size: 180, alcohol: 13, glass: "Copa de vino blanco", garnish: "—" },
+                ]
+            },
+            "sin-alcohol": {
+                icon: "🧃",
+                title: "Sin Alcohol",
+                subtitle: "Frescura y sabor sin una gota de alcohol",
+                isVirgin: true,
+                drinks: [
+                    { name: "Limonada de Jengibre", base: "Sin Alcohol", desc: "Bebida artesanal con jengibre machacado fresco, miel orgánica y limones naturales.", price: 4000, size: 400, alcohol: 0, glass: "Highball", garnish: "Limón, jengibre confitado, menta" },
+                    { name: "Virgin Mojito", base: "Sin Alcohol", desc: "Toda la frescura del clásico mojito sin alcohol. Hierba buena, limón, azúcar y soda.", price: 3500, size: 350, alcohol: 0, glass: "Highball", garnish: "Menta, rodaja de limón" },
+                ]
+            }
+        };
+
+        // =============== FORMAT PRICE ===============
+        function formatPrice(val) {
+            return '$' + val.toLocaleString('es-CL');
+        }
+
+        // =============== RENDER MENU ===============
+        function renderMenu() {
+            const container = document.getElementById('menuContainer');
+            let html = '';
+
+            Object.entries(menuData).forEach(([key, cat], catIndex) => {
+                html += `
+                <section class="category-section" id="section-${key}" style="animation-delay: ${catIndex * 0.15}s">
+                    <div class="category-header">
+                        <span class="category-icon">${cat.icon}</span>
+                        <h2 class="category-title">${cat.title}</h2>
+                        <p class="category-subtitle">${cat.subtitle}</p>
+                        <div class="category-divider">
+                            <div class="diamond"></div>
+                        </div>
+                    </div>
+                    <div class="drinks-grid">
+                `;
+
+                cat.drinks.forEach((drink, i) => {
+                    const badgeHtml = drink.status === 'new'
+                        ? '<span class="badge badge-new">🆕 Nuevo</span>'
+                        : drink.status === 'promo'
+                        ? '<span class="badge badge-promo">🔥 Promoción</span>'
+                        : '';
+
+                    const specialClass = cat.isSpecial ? 'specials-card' : '';
+                    const specialGlow = cat.isSpecial ? '<div class="specials-glow"></div>' : '';
+                    const virginBadge = cat.isVirgin ? '<span class="virgin-badge">🌿 0% Alcohol</span>' : '';
+
+                    html += `
+                    <div class="drink-card ${specialClass}" data-delay="${i * 0.1}">
+                        ${specialGlow}
+                        ${badgeHtml}
+                        <div class="card-content">
+                            <div class="card-top">
+                                <h3 class="drink-name">${drink.name}</h3>
+                                <span class="drink-dots"></span>
+                                <span class="drink-price">${formatPrice(drink.price)}</span>
+                            </div>
+                            <span class="drink-base">${drink.base}</span>
+                            ${virginBadge}
+                            <p class="drink-description">${drink.desc}</p>
+                            <div class="drink-meta">
+                                <span class="meta-item"><span class="meta-icon">📐</span> ${drink.size} ml</span>
+                                ${drink.alcohol > 0 ? `<span class="meta-item"><span class="meta-icon">🔥</span> ${drink.alcohol}% vol</span>` : ''}
+                                <span class="meta-item"><span class="meta-icon">🥂</span> ${drink.glass}</span>
+                                ${drink.garnish && drink.garnish !== '—' ? `<span class="meta-item"><span class="meta-icon">🌿</span> ${drink.garnish}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                });
+
+                html += `</div></section>`;
+            });
+
+            container.innerHTML = html;
+
+            // Intersection Observer for scroll animations
+            setupObserver();
+        }
+
+        // =============== SCROLL ANIMATIONS ===============
+        function setupObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = entry.target.getAttribute('data-delay') || 0;
+                        entry.target.style.animationDelay = delay + 's';
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            document.querySelectorAll('.drink-card').forEach(card => observer.observe(card));
+        }
+
+        // =============== NAVIGATION ===============
+        function scrollToSection(sectionId) {
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (sectionId === 'all') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            const section = document.getElementById(`section-${sectionId}`);
+            if (section) {
+                const navHeight = document.getElementById('categoryNav').offsetHeight;
+                const top = section.getBoundingClientRect().top + window.scrollY - navHeight - 20;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
+        }
+
+        // Active tab on scroll
+        function updateActiveTab() {
+            const navHeight = document.getElementById('categoryNav').offsetHeight;
+            const sections = document.querySelectorAll('.category-section');
+            let current = '';
+
+            sections.forEach(section => {
+                const top = section.offsetTop - navHeight - 100;
+                if (window.scrollY >= top) {
+                    current = section.id.replace('section-', '');
+                }
+            });
+
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+                const tabSection = tab.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+                if (tabSection === current || (!current && tabSection === 'all')) {
+                    tab.classList.add('active');
+                }
+            });
+        }
+
+        // =============== SCROLL TO TOP BUTTON ===============
+        function handleScroll() {
+            const btn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 400) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+            updateActiveTab();
+        }
+
+        // =============== INIT ===============
+        document.addEventListener('DOMContentLoaded', renderMenu);
+        window.addEventListener('scroll', handleScroll, { passive: true });
+    </script>
+</body>
+</html>
